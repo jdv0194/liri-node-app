@@ -59,7 +59,7 @@ function twitterFeed() {
 
     for (i = 0; i < data.statuses.length; i++) {
       console.log("Tweet: " + '"' + data.statuses[i].text + '".');
-      console.log("It was created at " + data.statuses[i].created_at + ".");
+      console.log("Time created: " + data.statuses[i].created_at + ".");
     }
   });
 }
@@ -97,34 +97,23 @@ function imdbMovie() {
   if (value == null) {
     var movieURL = "http://www.omdbapi.com/?t=Mr+Nobody&apikey=trilogy";
     request(movieURL, function(error, response, body) {
+      var json = JSON.parse(body);
       if (error) throw error;
 
-      console.log("Title: " + JSON.parse(body).Title + ".");
-      console.log("Year: " + JSON.parse(body).Year + ".");
-      console.log("IMDB Rating: " + JSON.parse(body).imdbRating + "/10.");
+      console.log("Title: " + json.Title + ".");
+      console.log("Year: " + json.Year + ".");
+      console.log("IMDB Rating: " + json.imdbRating + "/10.");
       console.log(
-        JSON.parse(body).Ratings[1].Source +
+        json.Ratings[1].Source +
           " gave the movie a rating of " +
-          JSON.parse(body).Ratings[1].Value +
+          json.Ratings[1].Value +
           "."
       );
+      console.log(json.Title + " was produced in " + json.Country + ".");
+      console.log(json.Title + "Languages: " + json.Language + ".");
+      console.log("Synopsis of " + json.Title + ": " + json.Plot);
       console.log(
-        JSON.parse(body).Title +
-          " was produced in " +
-          JSON.parse(body).Country +
-          "."
-      );
-      console.log(
-        JSON.parse(body).Title + "Languages: " + JSON.parse(body).Language + "."
-      );
-      console.log(
-        "Synopsis of " + JSON.parse(body).Title + ": " + JSON.parse(body).Plot
-      );
-      console.log(
-        JSON.parse(body).Title +
-          " features " +
-          JSON.parse(body).Actors +
-          " in leading roles."
+        json.Title + " features " + json.Actors + " in leading roles."
       );
     });
   } else {
@@ -133,43 +122,18 @@ function imdbMovie() {
     request(movieURL, function(error, response, body) {
       if (error) throw error;
 
-      console.log("The movie's title is " + JSON.parse(body).Title + ".");
-      console.log("It was released in " + JSON.parse(body).Year + ".");
+      var json = JSON.parse(body);
+
+      console.log("Title: " + json.Title + ".");
+      console.log("Release Date " + json.Year + ".");
+      console.log("IMDB rating: " + json.imdbRating + "/10.");
       console.log(
-        "IMDB gave the movie a rating of " +
-          JSON.parse(body).imdbRating +
-          " out of 10."
+        json.Ratings[1].Source + " rating: " + json.Ratings[1].Value + "."
       );
-      console.log(
-        JSON.parse(body).Ratings[1].Source +
-          " gave the movie a rating of " +
-          JSON.parse(body).Ratings[1].Value +
-          "."
-      );
-      console.log(
-        JSON.parse(body).Title +
-          " was produced in " +
-          JSON.parse(body).Country +
-          "."
-      );
-      console.log(
-        JSON.parse(body).Title +
-          " is available in the following languages: " +
-          JSON.parse(body).Language +
-          "."
-      );
-      console.log(
-        "A brief synopsis of " +
-          JSON.parse(body).Title +
-          ": " +
-          JSON.parse(body).Plot
-      );
-      console.log(
-        JSON.parse(body).Title +
-          " features " +
-          JSON.parse(body).Actors +
-          " in leading roles."
-      );
+      console.log("Produced in " + json.Country + ".");
+      console.log("Languages: " + json.Language + ".");
+      console.log("Synopsis: " + json.Plot);
+      console.log("Actors: " + json.Actors);
     });
   }
 }
